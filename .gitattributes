@@ -1,0 +1,14 @@
+# Scripts run on Android: must keep LF line endings even when cloned on Windows.
+*.sh            text eol=lf
+*.conf          text eol=lf
+*.smali         text eol=lf
+*.py            text eol=lf
+*.md            text eol=lf
+update-binary   text eol=lf
+updater-script  text eol=lf
+.gitignore      text eol=lf
+.gitattributes  text eol=lf
+
+*.apk           binary
+*.jar           binary
+*.zip           binary

@@ -1,0 +1,21 @@
+# --- secrets: the APK signing key must never be published ---
+keystore/
+*.p12
+*.jks
+*.keystore
+
+# --- build output (published as GitHub Release assets, not committed) ---
+out/
+*.zip
+
+# --- Google / third-party binaries ---
+*.apk
+!module_template/system/product/overlay/NavigationBarMode2ButtonOverlay/NavigationBarMode2ButtonOverlay.apk
+tools/*.jar
+*.img
+
+# --- misc ---
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
