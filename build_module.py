@@ -67,29 +67,44 @@ RELEASE_NOTES = """\
 > | Security patch | **{month}** (`{sec_patch}`) |
 > | Build fingerprint | `{fingerprint}` |
 >
-> Check *Settings → About phone → Android version / Build number*. On any other build the
-> installer stops without changing anything; download the release that matches your build.
-> Only tested on a Pixel 9a.
+> Check *Settings → About phone → Android version / Build number*. A module built for this
+> release only installs on this build; on any other build the installer stops without changing
+> anything. Only tested on a Pixel 9a.
+
+**There is no prebuilt zip.** The module contains a patched copy of Google's Pixel Launcher,
+so you build it yourself on your PC from your own phone or from Google's OTA. The result is a
+normal KernelSU / Magisk module zip.
 
 ## Prerequisites
+
+On the phone:
 
 * Root with **KernelSU** (tested) or **Magisk** (untested)
 * **overlayfs**: on KernelSU, install the **meta-overlayfs** metamodule *before* this module
   and reboot. Without a metamodule, KernelSU can't mount the module's files and nothing changes.
   Magisk mounts modules itself and needs nothing extra.
 
+On the PC: Python 3.10+, Java 17+, [apktool](https://apktool.org/) 3.x saved as
+`tools/apktool.jar`, Android SDK build-tools, and adb (or 7-Zip for the OTA route).
+
+## Build
+
+1. Download this release's **Source code (zip)** below and unzip it.
+2. Build the module, either way:
+   * **From your phone** (USB debugging on, no root needed): `python build_module.py`
+   * **From Google's full OTA** for `{build_id}` (developers.google.com/android/ota#tegu):
+     `python build_module.py --ota tegu-ota-{build_id_lower}-<hash>.zip`
+3. Check that the builder prints this stock launcher SHA-256. If it differs, your phone isn't
+   on `{build_id}`:
+   `{stock_sha}`
+
+The module is written to `out/{zip}`.
+
 ## Install
 
 1. KernelSU / Magisk → Modules → Install → `{zip}`
 2. Reboot. About 30 seconds after boot the phone switches to 2-button navigation and the
    patched launcher is compiled once (the home screen may reload).
-
-## Checksums
-
-| File | SHA-256 |
-|---|---|
-| `{zip}` | `{zsha}` |
-| Stock Pixel Launcher this zip requires | `{stock_sha}` |
 """
 
 
@@ -436,7 +451,8 @@ def main():
     notes = out / f"release-notes-{tag}.md"
     notes.write_text(RELEASE_NOTES.format(
         version=VERSION, build_id=build_id, android=android, month=month, sec_patch=sec_patch,
-        fingerprint=built_for, zip=zpath.name, zsha=zsha, stock_sha=stock_sha), encoding="utf-8", newline="\n")
+        fingerprint=built_for, zip=zpath.name, stock_sha=stock_sha, build_id_lower=build_id.lower()),
+        encoding="utf-8", newline="\n")
     print(f"\nMODULE: {zpath}\n  release tag     {tag}\n  release notes   {notes}\n"
           f"  OS              {os_label}\n  zip sha256      {zsha}\n  stock launcher  {stock_sha}\n"
           f"  patched launcher {patched_sha}")

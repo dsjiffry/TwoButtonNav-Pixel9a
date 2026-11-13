@@ -4,7 +4,7 @@ keystore/
 *.jks
 *.keystore
 
-# --- build output (published as GitHub Release assets, not committed) ---
+# --- build output (contains Google's patched launcher: never committed or published) ---
 out/
 *.zip
 

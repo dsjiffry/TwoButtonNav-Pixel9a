@@ -16,7 +16,7 @@ fi
 
 # Exact Android build only.
 if [ "$(getprop ro.build.id)" != "$BUILD_ID" ]; then
-  abort "! Wrong Android build: this zip is ONLY for $OS_LABEL. Download the release for build $(getprop ro.build.id)."
+  abort "! Wrong Android build: this zip is ONLY for $OS_LABEL. Build the module for build $(getprop ro.build.id) from the matching release."
 fi
 
 # KernelSU needs an overlayfs metamodule (e.g. meta-overlayfs) to mount module files.
@@ -36,7 +36,7 @@ STOCK="/$LAUNCHER_REL/$LAUNCHER_APK"
 if [ -f "$STOCK" ]; then
   cur=$(sha256sum "$STOCK" | cut -d' ' -f1)
   if [ "$cur" != "$STOCK_SHA256" ] && [ "$cur" != "$PATCHED_SHA256" ]; then
-    abort "! This zip is for build $(echo "$BUILT_FOR" | cut -d/ -f4). Your Pixel Launcher differs: download the zip that matches your build."
+    abort "! This zip is for build $(echo "$BUILT_FOR" | cut -d/ -f4). Your Pixel Launcher differs: build the module again for your build."
   fi
   ui_print "- Stock launcher matches the build"
 else

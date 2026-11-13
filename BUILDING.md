@@ -26,22 +26,25 @@ The builder prints the release tag and writes into `out/`:
 
 | File | Use |
 |---|---|
-| `TwoButtonNav-tegu-<BUILD_ID>-<version>.zip` | The module (release asset) |
-| `TwoButtonNav-tegu-<BUILD_ID>-<version>.zip.sha256` | Checksum (release asset) |
-| `release-notes-<version>-<BUILD_ID>.md` | Release description, including the exact OS version and prerequisites |
+| `TwoButtonNav-tegu-<BUILD_ID>-<version>.zip` | The module (to test on a phone; **not** published) |
+| `TwoButtonNav-tegu-<BUILD_ID>-<version>.zip.sha256` | Checksum of your local zip |
+| `release-notes-<version>-<BUILD_ID>.md` | Release description, including the exact OS version, prerequisites and build steps |
 
 If any patch doesn't match the launcher (Google changed the code), the build stops and no zip
 is made.
 
 ## Publish a release
 
-1. Build as above.
-2. Create a GitHub release:
-   * tag: `<version>-<BUILD_ID>` (e.g. `v3.2-CP4A.261105.040.A1`)
-   * title: first line of the release notes file
+Releases are **source only**. Never attach the zip: it contains Google's (patched) launcher.
+
+1. Build as above and test the zip on a Pixel 9a on that build.
+2. Add a row (newest first) to the **Which release do I need?** table in `README.md`, commit
+   and push.
+3. Create a GitHub release:
+   * tag: `<version>-<BUILD_ID>` (e.g. `v3.2-CP4A.261105.040.A1`) on the pushed commit
+   * title: first line of the release notes file (without the `# `)
    * description: the rest of the release notes file
-   * assets: the zip and its `.sha256`
-3. Add a row (newest first) to the **Which release do I need?** table in `README.md`.
+   * assets: none (GitHub adds the source code archives)
 
 When patches or module scripts change, bump `VERSION` / `VERSION_CODE` at the top of
 `build_module.py`, add a `CHANGELOG.md` entry, and rebuild every build still listed in the README.

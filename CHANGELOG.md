@@ -9,6 +9,8 @@
 * The installer shows the exact Android version each zip requires, refuses other builds and
   devices, and on KernelSU warns if no overlayfs metamodule (meta-overlayfs) is installed.
 * Builder: build straight from a Pixel 9a full OTA (`--ota`); Pixel 9a only.
+* Releases are source only: you build the module zip yourself (no patched Google launcher is
+  published). MIT license.
 
 ## v3.1
 * The Recents button no longer reappears after locking/unlocking (P3: no icon, swallows touches).
